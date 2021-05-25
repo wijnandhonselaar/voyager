@@ -1,19 +1,16 @@
 <?php
 
-use Illuminate\Http\Request;
+use App\Http\Controllers\VesselController;
+use App\Http\Controllers\VoyageController;
 use Illuminate\Support\Facades\Route;
 
-/*
-|--------------------------------------------------------------------------
-| API Routes
-|--------------------------------------------------------------------------
-|
-| Here is where you can register API routes for your application. These
-| routes are loaded by the RouteServiceProvider within a group which
-| is assigned the "api" middleware group. Enjoy building your API!
-|
-*/
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
+Route::group(['prefix' => 'voyages'], function () {
+    Route::post('/', [VoyageController::class, 'create']);
+    Route::out('/{voyage-id}', [VoyageController::class, 'update']);
+});
+
+Route::group(['prefix' => 'vessels'], function () {
+    Route::post('/{vessel-id}/vessel-opex', [VesselController::class, 'createOpex']);
+    Route::get('/{vessel-id}/financial-report', [VesselController::class, 'generateFinancialReport']);
 });
