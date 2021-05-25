@@ -10,18 +10,28 @@ use InvalidArgumentException;
 class VoyageService
 {
     protected $voyageRepository;
+    protected $vesselService;
 
-    public function __construct(VoyageRepo $voyageRepository)
+    public function __construct(VoyageRepo $voyageRepository, VesselService $vesselService)
     {
         $this->voyageRepository = $voyageRepository;
+        $this->vesselService = $vesselService;
     }
 
     public function create(Array $data) {
         $errors = $this->validate($data);
         if(count($errors) == 0) {
-            $vesselName = "";
-            $data["code"] = "{$vesselName}-{$data["start"]}";
+            $vessel = $this->vesselService->get($data["vessel_id"]);
+            $data["code"] = "{$vessel->name}-{$data["start"]}";
             return $this->voyageRepository->create($data);
+        }
+        return $errors;
+    }
+
+    public function update($id, Array $data) {
+        $errors = $this->validate($data, $id);
+        if(count($errors) == 0) {
+            return $this->voyageRepository->update($id, $data);
         }
         return $errors;
     }
@@ -30,15 +40,21 @@ class VoyageService
         return $this->voyageRepository->getWithStatus($vessel_id, $status);
     }
 
-
     private function validate($data, $id = null) {
-        $validator = Validator::make($data, [
-            'vessel_id' => 'required',
-            'start' => 'required',
-            'end' => 'required',
-            'revenues' => 'required',
-            'expenses' => 'required'
-        ]);
+        $fields = [
+            "vessel_id" => "required",
+            "start" => "required",
+            "end" => "required",
+            "revenues" => "required",
+            "expenses" => "required"
+        ];
+
+        if(!empty($id)) {
+            $fields["status"] = "required";
+        }
+
+        $validator = Validator::make($data, $fields);
+
         if ($validator->fails()) {
             throw new InvalidArgumentException($validator->errors()->first());
         }

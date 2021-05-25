@@ -14,4 +14,8 @@ class VesselRepo
     {
         $this->vessel = $vessel;
     }
+
+    public function getById($id) {
+        return $this->vessel->where('id', '=', $id)->get();
+    }
 }

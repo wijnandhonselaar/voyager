@@ -31,4 +31,14 @@ class VoyageRepo
         $voyage->vessel_id = $data["vessel_id"];
         return $voyage->fresh();
     }
+
+    public function getById($id) {
+        return $this->voyage->where('id', '=', $id)->get();
+    }
+
+    public function update($id, $data) {
+        $voyage = $this->getById($id);
+        $voyage->update($data);
+        return $voyage->fresh();
+    }
 }
