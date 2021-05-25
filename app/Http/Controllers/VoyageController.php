@@ -18,34 +18,40 @@ class VoyageController extends Controller
     public function create(Request $request) {
         $data = $request->only(["vessel_id", "start", "end", "revenues", "expenses"]);
 
-        $result = ['status' => 200];
+        $result = ["status" => 200];
 
         try {
-            $result['data'] = $this->voyageService->create($data);
+            $result["data"] = $this->voyageService->create($data);
+            if(!isset($result["data"]["id"])) {
+                $result["status"] = 400;
+            }
         } catch (Exception $e) {
             $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
+                "status" => 500,
+                "error" => $e->getMessage()
             ];
         }
 
-        return response()->json($result, $result['status']);
+        return response()->json($result, $result["status"]);
     }
 
     public function update(Request $request, $id) {
         $data = $request->only(["vessel_id", "start", "status", "end", "revenues", "expenses"]);
 
-        $result = ['status' => 200];
+        $result = ["status" => 200];
 
         try {
-            $result['data'] = $this->voyageService->update($id, $data);
-        } catch (Exception $e) {
+            $result["data"] = $this->voyageService->update($id, $data);
+            if(!isset($result["data"]["id"])) {
+                $result["status"] = 400;
+            }
+            } catch (Exception $e) {
             $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
+                "status" => 500,
+                "error" => $e->getMessage()
             ];
         }
 
-        return response()->json($result, $result['status']);
+        return response()->json($result, $result["status"]);
     }
 }
