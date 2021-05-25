@@ -35,7 +35,7 @@ class VoyageController extends Controller
         return response()->json($result, $result["status"]);
     }
 
-    public function update(Request $request, $id) {
+    public function update(Request $request, int $id) {
         $data = $request->only(["vessel_id", "start", "status", "end", "revenues", "expenses"]);
 
         $result = ["status" => 200];

@@ -8,7 +8,7 @@ class VesselOpex extends Model
 {
     protected $table = "vessel_opex";
 
-    public $fillable = ["vessel_id", "expenses"];
+    public $fillable = ["vessel_id", "expenses", "date"];
     protected $guarded = ["created_at", "updated_at"];
 
     public function vessel() {

@@ -14,4 +14,8 @@ class VesselOpexRepo
     {
         $this->vesselOpex = $vesselOpex;
     }
+
+    public function getByVesselIdAndDate($vessel_id, $date) {
+        return $this->vesselOpex->where([['vessel_id', '=', $vessel_id], ['date', '=', $date]])->get();
+    }
 }

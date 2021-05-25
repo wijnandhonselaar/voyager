@@ -28,7 +28,7 @@ class VoyageService
         return $errors;
     }
 
-    public function update($id, Array $data) {
+    public function update(int $id, Array $data) {
         $errors = $this->validate($data, $id);
         if(count($errors) == 0) {
             return $this->voyageRepository->update($id, $data);
@@ -36,8 +36,14 @@ class VoyageService
         return $errors;
     }
 
-    public function withStatus($vessel_id, $status) {
+    public function withStatus(int $vessel_id, string $status) {
         return $this->voyageRepository->getWithStatus($vessel_id, $status);
+    }
+
+    public function updateVoyageProfitByDate(int $vessel_id, string $date, float $expenses) {
+        $voyage = $this->voyageRepository->getbyDate($vessel_id, $date);
+        $profit = $voyage->revenues - $voyage->expenses - $expenses;
+        return $this->voyageRepository->update($voyage->id, ["profit" => $profit]);
     }
 
     private function validate($data, $id = null) {
@@ -64,7 +70,7 @@ class VoyageService
         // Validate dates
         try {
             $start = new DateTime($data["start"]);
-            $end = new DateTime($data["start"]);
+            $end = new DateTime($data["end"]);
             if($start > $end) {
                 $errors[] = "Start date is greater than the End date of the voyage.";
             }

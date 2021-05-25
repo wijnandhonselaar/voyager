@@ -32,6 +32,7 @@ class VoyageRepo
         $voyage->end = $data["end"];
         $voyage->revenues = $data["revenues"];
         $voyage->expenses = $data["expenses"];
+        $voyage->profit = floatval($data["revenues"]) - floatval($data["expenses"]);
         $voyage->save();
 
         return $voyage->fresh();
@@ -39,6 +40,10 @@ class VoyageRepo
 
     public function getById($id) {
         return $this->voyage->where('id', '=', $id)->get();
+    }
+
+    public function getByDate($vessel_id, $date) {
+        return $this->voyage->where('vessel_id', '=', $vessel_id);
     }
 
     public function update($id, $data) {
