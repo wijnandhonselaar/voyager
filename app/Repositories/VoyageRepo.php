@@ -6,6 +6,10 @@ namespace App\Repositories;
 
 use App\Models\Voyage;
 
+/**
+ * Class VoyageRepo
+ * @package App\Repositories
+ */
 class VoyageRepo
 {
     protected $voyage;
@@ -20,15 +24,16 @@ class VoyageRepo
     }
 
     public function create($data) {
+        // voyage->status default value is "pending"
         $voyage = new $this->voyage();
         $voyage->vessel_id = $data["vessel_id"];
-        $voyage->vessel_id = $data["vessel_id"];
-        $voyage->vessel_id = $data["vessel_id"];
-        $voyage->vessel_id = $data["vessel_id"];
-        $voyage->vessel_id = $data["vessel_id"];
-        $voyage->vessel_id = $data["vessel_id"];
-        $voyage->vessel_id = $data["vessel_id"];
-        $voyage->vessel_id = $data["vessel_id"];
+        $voyage->code = $data["code"];
+        $voyage->start = $data["start"];
+        $voyage->end = $data["end"];
+        $voyage->revenues = $data["revenues"];
+        $voyage->expenses = $data["expenses"];
+        $voyage->save();
+
         return $voyage->fresh();
     }
 

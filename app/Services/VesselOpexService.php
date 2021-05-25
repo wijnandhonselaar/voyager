@@ -12,4 +12,8 @@ class VesselOpexService
     {
         $this->vesselOpexRepository = $vesselOpexRepository;
     }
+
+    public function create($data) {
+
+    }
 }

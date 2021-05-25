@@ -29,11 +29,10 @@ class InitialDbTables extends Migration
             $table->string("code");
             $table->timestamp('start');
             $table->timestamp('end');
-            $table->string("imo");
             $table->string("status")->default("pending");
             $table->decimal("revenues", 8, 2);
             $table->decimal("expenses", 8, 2);
-            $table->decimal("profit", 8, 2);
+            $table->decimal("profit", 8, 2)->nullable();
 
             $table->foreign('vessel_id')
                 ->references('id')
