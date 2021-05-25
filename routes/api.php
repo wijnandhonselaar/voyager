@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\Route;
 
 Route::group(['prefix' => 'voyages'], function () {
     Route::post('/', [VoyageController::class, 'create']);
-    Route::out('/{voyage-id}', [VoyageController::class, 'update']);
+    Route::put('/{voyage-id}', [VoyageController::class, 'update']);
 });
 
 Route::group(['prefix' => 'vessels'], function () {
