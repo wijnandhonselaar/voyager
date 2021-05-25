@@ -30,7 +30,7 @@ class InitialDbTables extends Migration
             $table->timestamp('start');
             $table->timestamp('end');
             $table->string("imo");
-            $table->string("status");
+            $table->string("status")->default("pending");
             $table->decimal("revenues", 8, 2);
             $table->decimal("expenses", 8, 2);
             $table->decimal("profit", 8, 2);
@@ -45,6 +45,7 @@ class InitialDbTables extends Migration
             $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP on update CURRENT_TIMESTAMP'));
             $table->unsignedBigInteger('vessel_id');
+            $table->timestamp("date")->unique();
             $table->decimal("expenses", 8, 2);
 
             $table->foreign('vessel_id')
